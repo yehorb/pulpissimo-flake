@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "PULPissimo is the microcontroller architecture of the more recent PULP chips";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
