@@ -1,10 +1,21 @@
-{ pkgs, ... }:
+{
+  gcc9Stdenv,
+  fetchFromGitHub,
+  curl,
+  flex,
+  bison,
+  texinfo,
+  ...
+}:
 
-# Older versions of pulp-platform projects fail to build under GCC 10/11
-pkgs.gcc9Stdenv.mkDerivation rec {
+let
+  # Older versions of pulp-platform projects fail to build under GCC 10/11
+  stdenv = gcc9Stdenv;
+in
+stdenv.mkDerivation rec {
   pname = "pulp-riscv-gnu-toolchain";
   version = "1.0.16";
-  src = pkgs.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "pulp-platform";
     repo = "pulp-riscv-gnu-toolchain";
     tag = "v${version}";
@@ -12,9 +23,9 @@ pkgs.gcc9Stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
   nativeBuildInputs = [
-    pkgs.curl
-    pkgs.flex
-    pkgs.bison
-    pkgs.texinfo
+    curl
+    flex
+    bison
+    texinfo
   ];
 }

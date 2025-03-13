@@ -12,6 +12,6 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      packages.x86_64-linux.default = (import ./default.nix { inherit pkgs; });
+      packages.${system}.default = pkgs.callPackage ./default.nix { };
     };
 }
