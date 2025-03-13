@@ -18,6 +18,10 @@
     {
       packages.${system}.default = pkgs.callPackage ./default.nix { };
 
+      devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
+        inputsFrom = [ self.packages.${system}.default ];
+      };
+
       overlays.default = final: prev: {
         ccacheWrapper = prev.ccacheWrapper.override {
           extraConfig = ''
