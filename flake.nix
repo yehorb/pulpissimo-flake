@@ -9,7 +9,13 @@
     { self, nixpkgs }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          # Older versions of pulp-platform projects fail to build under GCC 10/11
+          replaceStdenv = ({ pkgs }: pkgs.gcc9Stdenv);
+        };
+      };
     in
     {
       packages.${system}.default = pkgs.callPackage ./default.nix { };
