@@ -19,15 +19,18 @@ stdenv.mkDerivation rec {
     hash = "sha256-RSnzVGBH/zm2cHhkaDdg1aZKiClbx/iwM8olKsaw/Eo=";
     fetchSubmodules = true;
   };
-  nativeBuildInputs = [
-    pkgs.curl
-    pkgs.flex
-    pkgs.bison
-    pkgs.texinfo
-
-    pkgs.gmp
-    pkgs.mpfr
-    pkgs.libmpc
-    pkgs.isl
+  nativeBuildInputs = with pkgs; [
+    curl
+    libmpc
+    mpfr
+    gmp
+    bison
+    flex
+    texinfo
+    gperf
+    libtool
+    patchutils
+    bc
+    isl # riscv-gcc dependency
   ];
 }
