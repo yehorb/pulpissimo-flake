@@ -15,5 +15,6 @@ pkgs.gcc9Stdenv.mkDerivation rec {
     pkgs.curl
     pkgs.flex
     pkgs.bison
+    pkgs.texinfo
   ];
 }
