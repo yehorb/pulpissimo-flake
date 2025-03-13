@@ -11,4 +11,7 @@ pkgs.gcc9Stdenv.mkDerivation rec {
     hash = "sha256-RSnzVGBH/zm2cHhkaDdg1aZKiClbx/iwM8olKsaw/Eo=";
     fetchSubmodules = true;
   };
+  nativeBuildInputs = [
+    pkgs.curl
+  ];
 }
