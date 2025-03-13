@@ -30,7 +30,11 @@ stdenv.mkDerivation rec {
     libtool
     patchutils
     bc
-    isl # riscv-gcc dependency
+    # riscv-gcc dependency
+    # latest version (0.20 or 0.24) causes compilation errors
+    # fix is proposed but not merged - https://github.com/pulp-platform/pulp-riscv-gcc/pull/5
+    # maybe create patch later?
+    isl_0_17
   ];
   hardeningDisable = [ "all" ];
 }
