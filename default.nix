@@ -1,5 +1,4 @@
 {
-  gcc9Stdenv,
   fetchFromGitHub,
   pkgs,
   ...
@@ -7,7 +6,7 @@
 
 let
   # Older versions of pulp-platform projects fail to build under GCC 10/11
-  stdenv = gcc9Stdenv;
+  stdenv = pkgs.gcc9CcacheStdenv;
 in
 stdenv.mkDerivation rec {
   pname = "pulp-riscv-gnu-toolchain";

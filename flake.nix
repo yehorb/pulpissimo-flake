@@ -42,7 +42,7 @@
             fi
           '';
         };
-        gcc9Stdenv = final.ccacheStdenv.override { stdenv = prev.gcc9Stdenv; };
+        gcc9CcacheStdenv = final.ccacheStdenv.override { stdenv = prev.gcc9Stdenv; };
       };
     };
 }
