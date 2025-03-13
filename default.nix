@@ -13,5 +13,6 @@ pkgs.gcc9Stdenv.mkDerivation rec {
   };
   nativeBuildInputs = [
     pkgs.curl
+    pkgs.flex
   ];
 }
