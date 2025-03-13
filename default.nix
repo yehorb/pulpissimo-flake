@@ -32,4 +32,5 @@ stdenv.mkDerivation rec {
     bc
     isl # riscv-gcc dependency
   ];
+  hardeningDisable = [ "all" ];
 }
