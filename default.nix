@@ -33,5 +33,4 @@ stdenv.mkDerivation rec {
     bc
     isl # riscv-gcc dependency
   ];
-  patches = [ ./patches/0001-riscv-gcc-libcpp-expr.c.patch ];
 }
