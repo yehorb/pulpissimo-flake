@@ -16,7 +16,8 @@
       };
     in
     {
-      packages.${system}.default = pkgs.callPackage ./default.nix { };
+      # Older versions of pulp-platform projects fail to build under GCC 10/11
+      packages.${system}.default = pkgs.callPackage ./default.nix { stdenv = pkgs.gcc9CcacheStdenv; };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];

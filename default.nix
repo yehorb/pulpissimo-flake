@@ -1,13 +1,10 @@
 {
-  fetchFromGitHub,
+  stdenv,
   pkgs,
+  fetchFromGitHub,
   ...
 }:
 
-let
-  # Older versions of pulp-platform projects fail to build under GCC 10/11
-  stdenv = pkgs.gcc9CcacheStdenv;
-in
 stdenv.mkDerivation rec {
   pname = "pulp-riscv-gnu-toolchain";
   version = "1.0.16";
@@ -36,5 +33,6 @@ stdenv.mkDerivation rec {
     # maybe create patch later?
     isl_0_17
   ];
+  # the codebase is not ready for hardening at all
   hardeningDisable = [ "all" ];
 }
