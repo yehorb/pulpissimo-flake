@@ -16,8 +16,19 @@
       };
     in
     {
-      # Older versions of pulp-platform projects fail to build under GCC 10/11
-      packages.${system}.default = pkgs.callPackage ./default.nix { stdenv = pkgs.gcc9CcacheStdenv; };
+      packages.${system} = rec {
+        default = pkgs.symlinkJoin {
+          pname = "pulpissimo";
+          version = "7.0.0";
+          paths = [
+            pulp-riscv-gnu-toolchain
+          ];
+        };
+        # Older versions of pulp-platform projects fail to build under GCC 10/11
+        pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
+          stdenv = pkgs.gcc9CcacheStdenv;
+        };
+      };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
