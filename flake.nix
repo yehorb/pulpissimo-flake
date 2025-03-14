@@ -25,12 +25,14 @@
           version = "7.0.0";
           paths = [
             pulp-riscv-gnu-toolchain
+            pulpissimo
           ];
         };
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
           stdenv = pkgs.gcc9CcacheStdenv;
         };
+        pulpissimo = pkgs.callPackage ./pkgs/pulpissimo.nix { };
       };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
