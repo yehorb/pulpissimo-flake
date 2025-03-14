@@ -1,8 +1,5 @@
 {
   pkgs,
-  python311,
-  pulp-riscv-gnu-toolchain,
-  pulpissimo,
 }:
 
 with pkgs;
@@ -40,8 +37,4 @@ with pkgs;
   cmake
   (scons.overrideAttrs { setupHook = null; })
   libsndfile
-]
-++ [
-  pulp-riscv-gnu-toolchain
-  pulpissimo
 ]

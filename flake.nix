@@ -17,26 +17,36 @@
         ];
         config = { };
       };
+      pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
+        # Older versions of pulp-platform projects fail to build under GCC 10/11
+        stdenv = pkgs.gcc9CcacheStdenv;
+      };
+      pulpissimo = pkgs.callPackage ./pkgs/pulpissimo.nix { };
+      pulp-sdk = pkgs.callPackage ./pkgs/pulp-sdk.nix { };
     in
     {
-      packages.${system} = rec {
-        default = pkgs.symlinkJoin {
-          pname = "pulpissimo";
-          version = "7.0.0";
-          paths = [
-            pulp-riscv-gnu-toolchain
-            pulpissimo
-          ];
-        };
-        # Older versions of pulp-platform projects fail to build under GCC 10/11
-        pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
-          stdenv = pkgs.gcc9CcacheStdenv;
-        };
-        pulpissimo = pkgs.callPackage ./pkgs/pulpissimo.nix { };
+      packages.${system} = {
+        inherit pulp-riscv-gnu-toolchain;
+        default = pulp-riscv-gnu-toolchain;
       };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
+        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix { };
+
+        PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
+        PULPISSIMO = pulpissimo;
+        PULPSDK = pulp-sdk;
+
+        VSIM_PATH = "${pulpissimo}/sim";
+        # purely formal check in build script
+        # removes the lsb-core dependency
+        PULP_ARTIFACTORY_DISTRIB = "Ubuntu_14";
+
+        setupHook = ''
+          source ${pulpissimo}/configs/pulpissimo.sh
+          source ${pulpissimo}/configs/platform-rtl.sh
+        '';
       };
 
       overlays = {
