@@ -32,20 +32,32 @@
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
+
         buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix { };
+        hardeningDisable = [ "all" ];
 
+        NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
+
+        # required environment variables
         PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
-        PULPISSIMO = pulpissimo;
-        PULPSDK = pulp-sdk;
+        VSIM_PATH = "$PULPISSIMO/sim";
 
-        VSIM_PATH = "${pulpissimo}/sim";
+        PULPISSIMO = pulpissimo.src;
+        PULP_SDK = pulp-sdk.src;
+        PULP_SDK_HOME = "$PULP_SDK/pkg/sdk/dev";
+
         # purely formal check in build script
         # removes the lsb-core dependency
         PULP_ARTIFACTORY_DISTRIB = "Ubuntu_14";
 
-        setupHook = ''
-          source ${pulpissimo}/configs/pulpissimo.sh
-          source ${pulpissimo}/configs/platform-rtl.sh
+        # $system env var messes with the pulp-sdk build process
+        shellHook = ''
+          unset system
+
+          source $PULP_SDK/configs/pulpissimo.sh
+          source $PULP_SDK/configs/platform-rtl.sh
+
+          export PS1="(pulp) $PS1"
         '';
       };
 
