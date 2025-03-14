@@ -1,10 +1,9 @@
 {
-  stdenv,
   fetchFromGitHub,
   ...
 }:
 
-stdenv.mkDerivation rec {
+rec {
   pname = "pulpissimo";
   version = "7.0.0";
   src = fetchFromGitHub {
@@ -13,7 +12,4 @@ stdenv.mkDerivation rec {
     tag = "v${version}";
     hash = "sha256-UxbTg+bXmySZ4yOZDJWPvb7oTCm9v/Zdvh/3T8QFJfs=";
   };
-  dontConfigure = true;
-  dontBuild = true;
-  dontInstall = true;
 }
