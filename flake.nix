@@ -42,6 +42,7 @@
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
 
+        packages = with pkgs; [ direnv ];
 
         env = {
           # required environment variable
@@ -53,6 +54,7 @@
 
         # $system env var messes with the pulp-sdk build process
         shellHook = ''
+          eval "$(direnv hook bash)"
           unset system
 
           source $PULP_SDK/configs/pulpissimo.sh
