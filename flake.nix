@@ -42,13 +42,14 @@
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
 
-        # required environment variables
-        PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
 
-
-        # purely formal check in build script
-        # removes the lsb-core dependency
-        PULP_ARTIFACTORY_DISTRIB = "Ubuntu_14";
+        env = {
+          # required environment variable
+          PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
+          # purely formal check in build script
+          # removes the lsb-core dependency
+          PULP_ARTIFACTORY_DISTRIB = "Ubuntu_14";
+        };
 
         # $system env var messes with the pulp-sdk build process
         shellHook = ''
