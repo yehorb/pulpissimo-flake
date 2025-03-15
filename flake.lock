@@ -16,9 +16,26 @@
         "type": "github"
       }
     },
+    "nixpkgs-semver2": {
+      "locked": {
+        "lastModified": 1616660301,
+        "narHash": "sha256-xilZzwijuplxa04krMBsvDwEAsXkvGpDrLSmv3LxSdo=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "92a955754d197a5161ab4c3ce5193b4c4eb1edcc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "92a955754d197a5161ab4c3ce5193b4c4eb1edcc",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-semver2": "nixpkgs-semver2"
       }
     }
   },

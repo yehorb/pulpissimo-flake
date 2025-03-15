@@ -3,10 +3,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
+    nixpkgs-semver2.url = "github:nixos/nixpkgs?ref=92a955754d197a5161ab4c3ce5193b4c4eb1edcc";
   };
 
   outputs =
-    { self, nixpkgs }:
+    {
+      self,
+      nixpkgs,
+      nixpkgs-semver2,
+    }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -33,7 +38,9 @@
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix { };
+        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix {
+          semver2-path = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver/default.nix";
+        };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
