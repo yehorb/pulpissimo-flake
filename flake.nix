@@ -64,6 +64,14 @@
           source $PULP_SDK/configs/pulpissimo.sh
           source $PULP_SDK/configs/platform-rtl.sh
 
+          echo "====="
+          echo "Please change ./update-ips and ./generate-scripts script from"
+          echo "from ipstools import ipstools"
+          echo "to"
+          echo "import ipstools"
+          echo "as ipstools is properly packaged"
+          echo "====="
+
           export PS1="(pulp) $PS1"
         '';
       };
