@@ -2,7 +2,7 @@
   pkgs,
   fetchFromGitHub,
 
-  semver2-path,
+  semver2-pkg,
 }:
 
 let
@@ -10,7 +10,7 @@ let
   python = pkgs.python311.withPackages (
     pythonPkgs:
     let
-      semver2 = (pythonPkgs.callPackage semver2-path { }).overridePythonAttrs {
+      semver2 = (pythonPkgs.callPackage semver2-pkg { }).overridePythonAttrs {
         doCheck = false;
       };
       ipstools = pythonPkgs.buildPythonPackage {

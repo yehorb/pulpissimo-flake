@@ -26,6 +26,7 @@
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9CcacheStdenv;
       };
+      semver2-pkg = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver";
     in
     {
       packages.${system} = {
@@ -36,9 +37,7 @@
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix {
-          semver2-path = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver/default.nix";
-        };
+        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix { inherit semver2-pkg; };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
