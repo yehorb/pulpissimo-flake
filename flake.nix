@@ -56,9 +56,6 @@
         shellHook = ''
           eval "$(direnv hook bash)"
           unset system
-
-          source $PULP_SDK/configs/pulpissimo.sh
-          source $PULP_SDK/configs/platform-rtl.sh
           export PS1="(pulpissimo) $PS1"
         '';
       };
