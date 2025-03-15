@@ -33,6 +33,11 @@ stdenv.mkDerivation rec {
     # maybe create patch later?
     isl_0_17
   ];
+  configureFlags = [
+    "--with-arch=rv32imc"
+    "--with-cmodel=medlow"
+    "--enable-multilib"
+  ];
   # the codebase is not ready for hardening at all
   hardeningDisable = [ "all" ];
 }
