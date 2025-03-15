@@ -26,8 +26,6 @@
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9CcacheStdenv;
       };
-      pulpissimo = pkgs.callPackage ./pkgs/pulpissimo.nix { };
-      pulp-sdk = pkgs.callPackage ./pkgs/pulp-sdk.nix { };
     in
     {
       packages.${system} = {
@@ -47,11 +45,7 @@
 
         # required environment variables
         PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
-        VSIM_PATH = "$PULPISSIMO/sim";
 
-        PULPISSIMO = pulpissimo.src;
-        PULP_SDK = pulp-sdk.src;
-        PULP_SDK_HOME = "$PULP_SDK/pkg/sdk/dev";
 
         # purely formal check in build script
         # removes the lsb-core dependency
