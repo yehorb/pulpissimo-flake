@@ -58,6 +58,7 @@
           bender
           (import ./env/python.nix { python = pulpissimo-python; })
           pkgs.direnv
+          pkgs.tcl
         ];
 
         env = {
