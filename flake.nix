@@ -26,18 +26,22 @@
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9CcacheStdenv;
       };
-      semver2-pkg = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver";
+      python = pkgs.callPackage ./pkgs/python.nix {
+        # the last version of Python that has the `imp` module
+        python = pkgs.python311;
+        semver2-pkg = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver";
+      };
     in
     {
       packages.${system} = {
-        inherit pulp-riscv-gnu-toolchain;
+        inherit pulp-riscv-gnu-toolchain python;
         default = pulp-riscv-gnu-toolchain;
       };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./pkgs/sdk-inputs.nix { inherit semver2-pkg; };
+        buildInputs = pkgs.callPackage ./pkgs/shell-inputs.nix { inherit python; };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
