@@ -26,10 +26,14 @@
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9CcacheStdenv;
       };
-      python = pkgs.callPackage ./pkgs/python.nix {
-        # the last version of Python that has the `imp` module
-        python = pkgs.python311;
-        semver2-pkg = "${nixpkgs-semver2.outPath}/pkgs/development/python-modules/semver";
+      semver = "${nixpkgs-semver_2_13.outPath}/pkgs/development/python-modules/semver";
+      # the last version of Python that has the `imp` module
+      pulpissimo-python = pkgs.python311.override {
+        self = pulpissimo-python;
+        packageOverrides = final: prev: {
+          ipstools = final.callPackage ./pkgs/python-modules/ipstools { };
+          semver = (final.callPackage semver { }).overridePythonAttrs { doCheck = false; };
+        };
       };
     in
     {
@@ -68,6 +72,9 @@
         ccache = import ./overlays/ccache.nix;
         default = final: prev: {
           gcc9CcacheStdenv = final.ccacheStdenv.override { stdenv = prev.gcc9Stdenv; };
+          scons = (prev.scons.override { python3Packages = pulpissimo-python.pkgs; }).overrideAttrs {
+            setupHook = null;
+          };
         };
       };
     };
