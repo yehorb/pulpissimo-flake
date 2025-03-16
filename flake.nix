@@ -45,7 +45,10 @@
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./env { };
+        buildInputs = pkgs.callPackage ./env {
+          # stop scons from overriding python
+          scons = pkgs.scons.overrideAttrs { passthru = { }; };
+        };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
@@ -75,9 +78,6 @@
         ccache = import ./overlays/ccache.nix;
         default = final: prev: {
           gcc9CcacheStdenv = final.ccacheStdenv.override { stdenv = prev.gcc9Stdenv; };
-          scons = (prev.scons.override { python3Packages = pulpissimo-python.pkgs; }).overrideAttrs {
-            setupHook = null;
-          };
         };
       };
     };
