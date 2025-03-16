@@ -47,7 +47,9 @@
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./env { };
+        buildInputs = pkgs.callPackage ./env {
+          scons = pkgs.scons.override { python3Packages = pulpissimo-python.pkgs; };
+        };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
