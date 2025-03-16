@@ -44,7 +44,7 @@
         default = pulp-riscv-gnu-toolchain;
       };
 
-      devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
+      devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9Stdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
         buildInputs = pkgs.callPackage ./env {
