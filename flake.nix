@@ -38,19 +38,22 @@
     in
     {
       packages.${system} = {
-        inherit pulp-riscv-gnu-toolchain python;
+        inherit pulp-riscv-gnu-toolchain pulpissimo-python;
         default = pulp-riscv-gnu-toolchain;
       };
 
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./pkgs/shell-inputs.nix { inherit python; };
+        buildInputs = pkgs.callPackage ./env { };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
 
-        packages = with pkgs; [ direnv ];
+        packages = [
+          (import ./env/python.nix { python = pulpissimo-python; })
+          pkgs.direnv
+        ];
 
         env = {
           # required environment variable
