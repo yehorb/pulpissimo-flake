@@ -1,6 +1,0 @@
-[submodule "pulp-platform/pulpissimo"]
-	path = pulp-platform/pulpissimo
-	url = https://github.com/pulp-platform/pulpissimo.git
-[submodule "pulp-platform/pulp-sdk"]
-	path = pulp-platform/pulp-sdk
-	url = https://github.com/pulp-platform/pulp-sdk.git
