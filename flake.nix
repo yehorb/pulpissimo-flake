@@ -3,14 +3,14 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
-    nixpkgs-semver2.url = "github:nixos/nixpkgs?ref=92a955754d197a5161ab4c3ce5193b4c4eb1edcc";
+    nixpkgs-semver_2_13.url = "github:nixos/nixpkgs?ref=92a955754d197a5161ab4c3ce5193b4c4eb1edcc";
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nixpkgs-semver2,
+      nixpkgs-semver_2_13,
     }:
     let
       system = "x86_64-linux";

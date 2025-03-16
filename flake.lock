@@ -16,7 +16,7 @@
         "type": "github"
       }
     },
-    "nixpkgs-semver2": {
+    "nixpkgs-semver_2_13": {
       "locked": {
         "lastModified": 1616660301,
         "narHash": "sha256-xilZzwijuplxa04krMBsvDwEAsXkvGpDrLSmv3LxSdo=",
@@ -35,7 +35,7 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "nixpkgs-semver2": "nixpkgs-semver2"
+        "nixpkgs-semver_2_13": "nixpkgs-semver_2_13"
       }
     }
   },
