@@ -45,10 +45,7 @@
       devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9CcacheStdenv; }) {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./env {
-          # stop scons from overriding python
-          scons = pkgs.scons.overrideAttrs { passthru = { }; };
-        };
+        buildInputs = pkgs.callPackage ./env { };
         hardeningDisable = [ "all" ];
 
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
