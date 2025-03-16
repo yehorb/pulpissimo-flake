@@ -1,8 +1,4 @@
 {
-  # pulpissimo python environment
-  python,
-
-  # dependencies
   git,
   texinfo,
   gmp,
@@ -23,7 +19,6 @@
 
 [
   git
-  python
   texinfo
   gmp
   mpfr
@@ -37,6 +32,6 @@
   (perl.withPackages (perlPkgs: [ perlPkgs.Switch ]))
   libftdi1
   cmake
-  ((scons.override { python3Packages = python.pkgs; }).overrideAttrs { setupHook = null; })
+  scons
   libsndfile
 ]
