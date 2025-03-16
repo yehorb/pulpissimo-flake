@@ -26,6 +26,7 @@
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9CcacheStdenv;
       };
+      bender = pkgs.callPackage ./pkgs/bender.nix { };
       semver = "${nixpkgs-semver_2_13.outPath}/pkgs/development/python-modules/semver";
       # the last version of Python that has the `imp` module
       pulpissimo-python = pkgs.python311.override {
@@ -38,7 +39,7 @@
     in
     {
       packages.${system} = {
-        inherit pulp-riscv-gnu-toolchain pulpissimo-python;
+        inherit pulp-riscv-gnu-toolchain bender pulpissimo-python;
         inherit (pulpissimo-python.pkgs) ipstools semver;
         default = pulp-riscv-gnu-toolchain;
       };
@@ -52,6 +53,7 @@
         NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
 
         packages = [
+          bender
           (import ./env/python.nix { python = pulpissimo-python; })
           pkgs.direnv
         ];
