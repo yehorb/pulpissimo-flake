@@ -39,6 +39,7 @@
     {
       packages.${system} = {
         inherit pulp-riscv-gnu-toolchain pulpissimo-python;
+        inherit (pulpissimo-python.pkgs) ipstools semver;
         default = pulp-riscv-gnu-toolchain;
       };
 
