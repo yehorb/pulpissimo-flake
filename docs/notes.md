@@ -1,0 +1,42 @@
+# My experience packaging PULPissimo
+
+- AI tools were much less useful, than I wanted them to be.
+  - In my experience, they understand Overlays even less than I do.
+  - Indirect nature of Overlays is confusing for AI.
+  - Hard questions with no clear answer are confusing for AI.
+    - I came up with the `semver` downgrade myself.
+- You control everything about the environment - which is a good and a bad thing.
+  - Requires good fundamentals.
+    - Dealing with errors from multiple different build systems.
+      - This project alone:
+        - make
+        - SCons
+        - Bash scripts
+        - Python scripts
+        - Cargo
+        - Nix itself
+    - Understanding which part of the environment causes the issue is crucial.
+      - Example: `scons` package by default uses `python312`, but this project uses deprecated imports, lastly available in `python311`.
+      - Even though I include the `python311` in the environment, `scons` needs to be specifically overridden to use that version of Python.
+  - Not being careful leads to you compiling your system starting from `libc and make`.
+- Overrides and Overlays are the essential part of nixpkgs.
+  - Any package can be recreated from scratch having this tools.
+  - I am not sure I would be able to recreate `.override, .overrideAttrs, overlays`.
+- Carefully structured overlays allow for *the easiest toolchain tweaks* in my life.
+  - Changing the whole compiler toolchain in one line of code without additional tweaks.
+- When using `pkgs.python.override.packageOverrides`, only `final:` (first argument of a function) has the `.callPackage` property available. For some reason, `pref:` (second argument) does not.
+- Nix exposes all of the configuration to the builder using environment variables.
+  - Shell environment also inherits these environment variables.
+
+- Running a simulation was another adventure, albeit a shorter one.
+- Repository references Bender version 0.22.0, but I built the latest master - 0.28.1 + 31 commits.
+- Version 0.24.0 changed the behavior of `export_include_dirs` configuration option.
+  - Before 0.24.0 it `+incdir+` all directories listed in `export_include_dirs` to all units.
+  - After 0.24.0 it became more picky, and only added it to current sources.
+  - I just brute-forced this option back by adding it as a `--vlog-arg` "flag".
+- Next it was a matter of suppressing build errors.
+  - `-suppress vopt-2732` for optimization step.
+    - Added in the relevant Makefile.
+  - `-suppress vsim-3839,vsim-3837` for sim step.
+    - Added using environment variable `VSIM_FLAGS`.
+      - It is a part of `.envrc`, but it really should be included somewhere in `pulpissimo` project...
