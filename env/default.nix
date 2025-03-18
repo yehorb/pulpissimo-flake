@@ -15,6 +15,7 @@
   cmake,
   scons,
   libsndfile,
+  tcl,
 }:
 
 [
@@ -34,4 +35,5 @@
   cmake
   scons
   libsndfile
+  tcl
 ]
