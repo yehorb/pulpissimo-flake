@@ -1,5 +1,6 @@
 # My experience packaging PULPissimo
 
+- This project is as much an exploration of Nix, as it is an exploration of PULPissimo.
 - AI tools were much less useful, than I wanted them to be.
   - In my experience, they understand Overlays even less than I do.
   - Indirect nature of Overlays is confusing for AI.
