@@ -3,8 +3,8 @@
   fetchFromGitHub,
 
   # dependencies
-  semver,
   pyyaml,
+  semver_2_13,
 }:
 
 buildPythonPackage {
@@ -19,8 +19,8 @@ buildPythonPackage {
   };
 
   dependencies = [
-    semver
     pyyaml
+    semver_2_13
   ];
 
   pythonImportsCheck = [ "ipstools" ];

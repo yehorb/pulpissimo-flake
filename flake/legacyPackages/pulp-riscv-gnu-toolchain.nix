@@ -31,11 +31,12 @@ stdenv.mkDerivation rec {
   patches = [
     (fetchpatch {
       url = "https://github.com/pulp-platform/pulp-riscv-gcc/commit/a084ea3722d5213059d068d6c4db5b815afddafe.patch";
-      hash = "0";
+      hash = "sha256-qVkSldLYlz1pekwcmUlaVS4Bu8Amx8vWvsAOZYdiVL4=";
       name = "fix-isl-0_20.patch";
     })
   ];
   patchFlags = [
+    "-p1"
     "--directory"
     "riscv-gcc"
   ];

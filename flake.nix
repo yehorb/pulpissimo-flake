@@ -17,20 +17,16 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { };
+        overlays = [ self.overlays.default ];
       };
-      pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
+      pulp-riscv-gnu-toolchain = pkgs.callPackage ./flake/legacyPackages/pulp-riscv-gnu-toolchain.nix {
         # Older versions of pulp-platform projects fail to build under GCC 10/11
         stdenv = pkgs.gcc9Stdenv;
       };
-      bender = pkgs.callPackage ./pkgs/bender.nix { };
-      semver = "${nixpkgs-semver_2_13.outPath}/pkgs/development/python-modules/semver";
-      # the last version of Python that has the `imp` module
-      pulpissimo-python = pkgs.python311.override {
-        self = pulpissimo-python;
-        packageOverrides = final: prev: {
-          ipstools = final.callPackage ./pkgs/python-modules/ipstools { };
-          semver = (final.callPackage semver { }).overridePythonAttrs { doCheck = false; };
-        };
+      bender = pkgs.callPackage ./flake/legacyPackages/bender.nix { };
+      pulpissimo-python = pkgs.callPackage ./flake/legacyPackages/pulpissimo-python.nix {
+        ipstools = ./flake/legacyPackages/python-modules/ipstools.nix;
+        semver_2_13 = "${nixpkgs-semver_2_13.outPath}/pkgs/development/python-modules/semver";
       };
     in
     {
@@ -40,34 +36,13 @@
         default = pulp-riscv-gnu-toolchain;
       };
 
-      devShells.${system}.default = pkgs.mkShell {
-        inputsFrom = [ self.packages.${system}.default ];
+      devShells.${system}.default = pkgs.callPackage ./flake/develop/default.nix {
+        stdenv = pkgs.gcc9Stdenv;
+      };
 
-        buildInputs = pkgs.callPackage ./env/default.nix {
-          scons = pkgs.scons.override { python3Packages = pulpissimo-python.pkgs; };
-        };
-        hardeningDisable = [ "all" ];
-
-        NIX_CFLAGS_COMPILE = [ "-Wno-error=deprecated-declarations" ];
-
-        packages = [
-          bender
-          (pulpissimo-python.callPackage ./env/python.nix { })
-        ];
-
-        env = {
-          # required environment variable
-          PULP_RISCV_GCC_TOOLCHAIN = pulp-riscv-gnu-toolchain;
-          # purely formal check in build script
-          # removes the lsb-core dependency
-          PULP_ARTIFACTORY_DISTRIB = "Ubuntu_14";
-        };
-
-        # $system env var messes with the pulp-sdk build process
-        shellHook = ''
-          unset system
-          export PS1="(pulpissimo) $PS1"
-        '';
+      overlays.default = final: prev: {
+        inherit (self.packages.${system}) pulp-riscv-gnu-toolchain bender pulpissimo-python;
+        scons = prev.scons.override { python3Packages = pulpissimo-python.pkgs; };
       };
     };
 }
