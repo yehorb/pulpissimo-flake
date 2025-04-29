@@ -1,6 +1,7 @@
 {
   stdenv,
   fetchFromGitHub,
+  fetchpatch,
 
   # dependencies
   bc,
@@ -9,7 +10,7 @@
   flex,
   gmp,
   gperf,
-  isl_0_17,
+  isl,
   libmpc,
   libtool,
   mpfr,
@@ -27,6 +28,17 @@ stdenv.mkDerivation rec {
     hash = "sha256-RSnzVGBH/zm2cHhkaDdg1aZKiClbx/iwM8olKsaw/Eo=";
     fetchSubmodules = true;
   };
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/pulp-platform/pulp-riscv-gcc/commit/a084ea3722d5213059d068d6c4db5b815afddafe.patch";
+      hash = "0";
+      name = "fix-isl-0_20.patch";
+    })
+  ];
+  patchFlags = [
+    "--directory"
+    "riscv-gcc"
+  ];
   nativeBuildInputs = [
     bc
     bison
@@ -34,17 +46,12 @@ stdenv.mkDerivation rec {
     flex
     gmp
     gperf
+    isl
     libmpc
     libtool
     mpfr
     patchutils
     texinfo
-
-    # riscv-gcc dependency
-    # latest version (0.20 or 0.24) causes compilation errors
-    # fix is proposed but not merged - https://github.com/pulp-platform/pulp-riscv-gcc/pull/5
-    # maybe create patch later?
-    isl_0_17
   ];
   configureFlags = [
     "--with-arch=rv32imc"
