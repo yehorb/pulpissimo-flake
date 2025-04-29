@@ -16,15 +16,11 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [
-          self.overlays.ccache
-          self.overlays.default
-        ];
         config = { };
       };
       pulp-riscv-gnu-toolchain = pkgs.callPackage ./pkgs/pulp-riscv-gnu-toolchain.nix {
         # Older versions of pulp-platform projects fail to build under GCC 10/11
-        stdenv = pkgs.gcc9CcacheStdenv;
+        stdenv = pkgs.gcc9Stdenv;
       };
       bender = pkgs.callPackage ./pkgs/bender.nix { };
       semver = "${nixpkgs-semver_2_13.outPath}/pkgs/development/python-modules/semver";
@@ -44,7 +40,7 @@
         default = pulp-riscv-gnu-toolchain;
       };
 
-      devShells.${system}.default = (pkgs.mkShell.override { stdenv = pkgs.gcc9Stdenv; }) {
+      devShells.${system}.default = pkgs.mkShell {
         inputsFrom = [ self.packages.${system}.default ];
 
         buildInputs = pkgs.callPackage ./env {
@@ -74,13 +70,6 @@
           unset system
           export PS1="(pulpissimo) $PS1"
         '';
-      };
-
-      overlays = {
-        ccache = import ./overlays/ccache.nix;
-        default = final: prev: {
-          gcc9CcacheStdenv = final.ccacheStdenv.override { stdenv = prev.gcc9Stdenv; };
-        };
       };
     };
 }
