@@ -53,7 +53,6 @@
         packages = [
           bender
           (import ./env/python.nix { python = pulpissimo-python; })
-          pkgs.direnv
         ];
 
         env = {
@@ -66,7 +65,6 @@
 
         # $system env var messes with the pulp-sdk build process
         shellHook = ''
-          eval "$(direnv hook bash)"
           unset system
           export PS1="(pulpissimo) $PS1"
         '';
