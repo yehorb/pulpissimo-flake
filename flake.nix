@@ -43,7 +43,7 @@
       devShells.${system}.default = pkgs.mkShell {
         inputsFrom = [ self.packages.${system}.default ];
 
-        buildInputs = pkgs.callPackage ./env {
+        buildInputs = pkgs.callPackage ./env/default.nix {
           scons = pkgs.scons.override { python3Packages = pulpissimo-python.pkgs; };
         };
         hardeningDisable = [ "all" ];
@@ -52,7 +52,7 @@
 
         packages = [
           bender
-          (import ./env/python.nix { python = pulpissimo-python; })
+          (pulpissimo-python.callPackage ./env/python.nix { })
         ];
 
         env = {
