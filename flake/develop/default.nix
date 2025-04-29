@@ -86,5 +86,9 @@
   shellHook = ''
     unset system
     export PS1="(pulpissimo) $PS1"
+    export PULPISSIMO="$PWD/pulp-platform/pulpissimo"
+    export BENDER=1
+    export VSIM_FLAGS="-suppress vsim-3839,vsim-3837"
+    source $PULPISSIMO/env/pulpissimo.sh
   '';
 }
