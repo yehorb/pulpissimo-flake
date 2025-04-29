@@ -1,6 +1,8 @@
 {
   buildPythonPackage,
   fetchFromGitHub,
+
+  # dependencies
   semver,
   pyyaml,
 }:

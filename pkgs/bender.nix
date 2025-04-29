@@ -1,6 +1,6 @@
 {
-  lib,
   fetchFromGitHub,
+  lib,
   rustPlatform,
 }:
 
