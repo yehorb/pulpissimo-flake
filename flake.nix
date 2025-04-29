@@ -2,7 +2,7 @@
   description = "PULPissimo is the microcontroller architecture of the more recent PULP chips";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-semver_2_13.url = "github:nixos/nixpkgs?ref=92a955754d197a5161ab4c3ce5193b4c4eb1edcc";
   };
 
