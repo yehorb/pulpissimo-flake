@@ -6,17 +6,17 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "bender";
-  version = "unstable-2025-01-31";
+  version = "0.28-unstable-2025-04-17";
 
   src = fetchFromGitHub {
     owner = "pulp-platform";
     repo = pname;
-    rev = "975264f4054d02c368ed1f5a974b55f665d6f82f";
-    hash = "sha256-wa3vM7EmFV29Fdp3Od/L/HaekFHjZapRdfkVKbRf+WE=";
+    rev = "f2721a9ff6be49c49c3c73920cdaf053194ea0c0";
+    hash = "sha256-0jSBEicECK3YI2AFlSy+ALQ5SO0/B8hfqeQByvrlYYw=";
   };
 
   useFetchCargoVendor = true;
-  cargoHash = "sha256-4x9vnKCJ2M9Sp/wPIbXv+IJQoSF2YIAsUqoSmH0pwA4=";
+  cargoHash = "sha256-m8PuwSA7+Zk1i4hy4eco9V1R02/XGpC6RwJxySoqgo8=";
 
   meta = {
     description = "A dependency management tool for hardware design projects";
@@ -26,5 +26,6 @@ rustPlatform.buildRustPackage rec {
       mit
     ];
     maintainers = [ ];
+    mainProgram = "bender";
   };
 }
